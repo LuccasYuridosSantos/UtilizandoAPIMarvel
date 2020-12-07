@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste</title>
+    <style>
+        img{
+            width: 300px;
+            border-bottom-style: solid;
+            border-top-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+        }
+
+        .personagem{
+            width: 300px;
+            margin: 20px;
+            border-style: solid;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id = 'herois' style = "
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    ">
+        
+    </div>  
+
+    
+</body>
+<script>
+    const timeStamp = '16073067782'
+    const apiKey='a3c287467be0472dce77d011135215aa'
+    const md5='1ffc79a34a61ed8f6412e0e97b3347b0'
+
+   fetch(`https://gateway.marvel.com:443/v1/public/characters?ts=${timeStamp}&apikey=${apiKey}&hash=${md5}&limit=6`
+   ).then((response)=>{
+       return response.json(); 
+   }).then((jsonParsed)=>{
+
+       const divHero = document.querySelector('#herois');
+
+       jsonParsed.data.results.forEach(element => {
+           const srcImage = element.thumbnail.path + '.' + element.thumbnail.extension
+           const nameHero = element.name
+
+           createDivHero(srcImage, nameHero, divHero);
+       });
+
+       console.log(jsonParsed);
+   })
+
+   function createDivHero(srcImage, nameHero, divToAppend){
+       const divPai = document.createElement('div')
+       const divFilho = document.createElement('div')
+       const textName = document.createElement('text')
+       const img = document.createElement('img')
+
+       textName.textContent = nameHero
+       img.src = srcImage
+
+       divFilho.appendChild(img)
+       divFilho.appendChild(textName)
+       divPai.appendChild(divFilho)
+       divToAppend.appendChild(divPai)
+
+       divPai.classList.add("personagem")
+
+   }
+    
+</script>
+</html>
